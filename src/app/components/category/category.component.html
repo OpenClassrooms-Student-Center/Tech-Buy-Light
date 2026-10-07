@@ -1,5 +1,5 @@
 <article>
-  <h1>{{ category?.name }}</h1>
+  <h1>{{ category.name }}</h1>
   <div class="list-products">
     <div class="mini-product" *ngFor="let product of products">
       <a [routerLink]="['/product', product.id]">

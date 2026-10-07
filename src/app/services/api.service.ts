@@ -9,7 +9,7 @@ import { Category } from '../models/category.model';
 import { Product } from '../models/product.model';
 
 // @ts-ignore
-import data from './data.json'; 
+import data from './data.json';
 
 interface CategoryWithProducts extends Category {
   products: Product[];
@@ -18,7 +18,7 @@ interface CategoryWithProducts extends Category {
 interface MockData {
   category: Category[];
   product: Product[];
-  user: any[]; 
+  user: any[];
 }
 
 const mockData: MockData = data as any;
@@ -27,7 +27,7 @@ const mockData: MockData = data as any;
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService { 
+export class ApiService {
 
   constructor() { }
 
@@ -77,15 +77,15 @@ export class ApiService {
    * Avec les produits associés.
    * @returns Promise<Category>
    */
-  public getCategoryWithProducts(id: number): Promise<CategoryWithProducts> {
-    const category = mockData.category.filter(c => c.id == id)[0];
-    const products = mockData.product.filter(p => p.category_id == id);
-    category.products = products;
+  public getCategoryWithProducts(id: number): Promise<Category> {
+    const category = mockData.category.find(c => c.id === id);
 
-    if (category) {
-      return Promise.resolve(category);
+    if (!category) {
+      return Promise.reject(new Error(`Category with ID ${id} not found.`));
     }
-    return Promise.reject(new Error(`Category with ID ${id} not found.`));
+
+    category.products = mockData.product.filter(p => p.category_id === id);
+    return Promise.resolve(category);
   }
 
   /**
